@@ -1,8 +1,10 @@
+import time
+
 import cv2
 from src.hand_tracker import HandTracker
 
 WINDOW = "Hand Tracking"
-PALM_MODEL_PATH = "models/palm_detection_without_custom_op.tflite"
+PALM_MODEL_PATH = "models/palm_detection.tflite"
 LANDMARK_MODEL_PATH = "models/hand_landmark.tflite"
 ANCHORS_PATH = "models/anchors.csv"
 
@@ -49,7 +51,9 @@ detector = HandTracker(
 
 while hasFrame:
     image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    st = time.time()
     points, _ = detector(image)
+    print(time.time() - st)
     if points is not None:
         for point in points:
             x, y = point
